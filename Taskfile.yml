@@ -1,0 +1,48 @@
+version: '3'
+
+silent: true
+
+vars:
+  LINTER_VERSION: '1.50.1'
+  HOME_BIN_DIR:
+    sh: eval echo "~$USER/bin"
+  BUILD_BIN_DIR: ./.build/bin
+  BIN_DIR: '{{default .BUILD_BIN_DIR .HOME_BIN_DIR}}'
+
+tasks:
+  setup:
+    desc: Setup dependencies
+    sources:
+      - ./**/*.go
+    cmds:
+      - echo "Preparing dependencies..."
+      - go mod tidy -e
+      - go mod download
+      - echo "Dependencies are ready."
+
+  lint:
+    desc: Lint the Go code with golangci-lint
+    deps:
+      - install:golangci
+    cmds:
+      - echo "Running golangci-lint..."
+      - '{{.BIN_DIR}}/golangci-lint run ./...'
+
+  test:
+    desc: Test the Go code
+    cmds:
+      - echo "Running tests..."
+      - 'go test -race -coverprofile=coverage.txt -covermode=atomic ./...'
+
+# Internal tasks
+  install:golangci:
+    desc: Install the correct version of the golangci-lint binary
+    internal: true
+    status:
+      - 'if [[ -f "{{.BIN_DIR}}/golangci-lint" ]] && [[ "$({{.BIN_DIR}}/golangci-lint version)" == *"version v{{.LINTER_VERSION}}"* ]]; then exit 0; else exit 1; fi'
+    env:
+      GOBIN: '{{.BIN_DIR}}'
+    cmds:
+      - echo "Installing golangci-lint version {{.LINTER_VERSION}}..."
+      - 'go install github.com/golangci/golangci-lint/cmd/golangci-lint@v{{.LINTER_VERSION}}'
+      - echo "Linter installed."
