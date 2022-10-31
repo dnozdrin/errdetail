@@ -1,0 +1,24 @@
+{
+  "error": {
+    "code": 400,
+    "message": "bad request",
+    "status": "NOT_FOUND",
+    "details": [
+      {
+        "domain": "user.auth",
+        "code": "invalid_email",
+        "description": "email validation failed",
+        "field": "user.email",
+        "reason": "invalid character detected: \"#\""
+      },
+      {
+        "domain": "user.auth",
+        "code": "invalid password",
+        "description": "password validation failed",
+        "field": "user.password",
+        "reason": "password is empty"
+      }
+    ]
+  }
+}
+
