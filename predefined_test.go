@@ -1,11 +1,12 @@
 // Copyright 2022 Dmytro Nozdrin. All rights reserved.
 // Use of this source code is governed by the MIT License
-// license that can be found in the LICENSE file.
+// that can be found in the LICENSE file.
 
 package errdetail_test
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -134,7 +135,7 @@ func TestErrorConstructors(t *testing.T) {
 		{
 			name: "details_only",
 			args: args{
-				msg: "dummy message",
+				msg: "",
 				details: []Detail{
 					NewDetail(WithCode("dummy_code")),
 					NewDetail(WithDescription("dummy description")),
@@ -161,12 +162,13 @@ func TestErrorConstructors(t *testing.T) {
 			t.Run(tt.name+"/"+tc.name, func(t *testing.T) {
 				t.Parallel()
 
-				details := make([]Detail, len(tc.args.details))
-				copy(details, tc.args.details) // todo: avoid race conditions in code, not in tests!
-
-				err := tt.constructor(tc.args.msg, details...)
+				err := tt.constructor(tc.args.msg, tc.args.details...)
 				assert.Error(t, err)
-				assert.Equal(t, tc.args.msg, err.Error())
+				if tc.args.msg != "" {
+					assert.Equal(t, fmt.Sprintf("%s: %s", tc.args.msg, tt.err.Error()), err.Error())
+				} else {
+					assert.Equal(t, tt.err.Error(), err.Error())
+				}
 				assert.Equal(t, tc.args.details, ExtractDetails(err))
 				assert.Equal(t, tt.err, errors.Unwrap(err))
 			})

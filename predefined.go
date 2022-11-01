@@ -1,12 +1,12 @@
 // Copyright 2022 Dmytro Nozdrin. All rights reserved.
 // Use of this source code is governed by the MIT License
-// license that can be found in the LICENSE file.
+// that can be found in the LICENSE file.
 
 package errdetail
 
 type predefined string
 
-// Error - `error` interface implementation for the `predefined` type
+// Error is the `error` interface implementation for the `predefined` type
 func (e predefined) Error() string {
 	return string(e)
 }
