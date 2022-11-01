@@ -16,7 +16,7 @@ import (
 
 	"github.com/dnozdrin/errdetail"
 
-	. "github.com/dnozdrin/errdetail/example/simple_http"
+	. "github.com/dnozdrin/errdetail/examples/simple_http"
 )
 
 func TestNewErrorResponse(t *testing.T) {

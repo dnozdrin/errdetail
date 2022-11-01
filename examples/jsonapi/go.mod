@@ -1,4 +1,4 @@
-module github.com/dnozdrin/errdetail/example/json_api
+module github.com/dnozdrin/errdetail/examples/json_api
 
 go 1.13
 

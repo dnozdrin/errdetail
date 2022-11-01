@@ -1,4 +1,4 @@
-module github.com/dnozdrin/errdetail/example/validation
+module github.com/dnozdrin/errdetail/examples/validation
 
 go 1.13
 

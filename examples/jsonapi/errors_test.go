@@ -12,8 +12,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	. "github.com/dnozdrin/errdetail/examples/json_api"
+
 	"github.com/dnozdrin/errdetail"
-	. "github.com/dnozdrin/errdetail/example/json_api"
 )
 
 func TestNewErrorResponse(t *testing.T) {

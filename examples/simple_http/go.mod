@@ -1,4 +1,4 @@
-module github.com/dnozdrin/errdetail/example/simple_http
+module github.com/dnozdrin/errdetail/examples/simple_http
 
 go 1.13
 
