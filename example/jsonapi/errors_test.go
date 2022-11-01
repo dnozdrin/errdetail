@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT License
 // license that can be found in the LICENSE file.
 
-package jsonapi
+package jsonapi_test
 
 import (
 	"embed"
@@ -13,6 +13,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/dnozdrin/errdetail"
+	. "github.com/dnozdrin/errdetail/example/json_api"
 )
 
 //go:embed testdata
