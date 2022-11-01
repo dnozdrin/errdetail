@@ -1,14 +1,14 @@
 // Copyright 2022 Dmytro Nozdrin. All rights reserved.
 // Use of this source code is governed by the MIT License
-// license that can be found in the LICENSE file.
+// that can be found in the LICENSE file.
 
 package simple_http_test
 
 import (
 	"context"
-	"embed"
 	"encoding/json"
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -18,9 +18,6 @@ import (
 
 	. "github.com/dnozdrin/errdetail/example/simple_http"
 )
-
-//go:embed testdata
-var testdata embed.FS
 
 func TestNewErrorResponse(t *testing.T) {
 	t.Parallel()
@@ -417,7 +414,7 @@ func TestNewErrorResponse(t *testing.T) {
 			actual, err := json.Marshal(got)
 			require.NoError(t, err)
 
-			expected, err := testdata.ReadFile("testdata/" + tt.file + ".json")
+			expected, err := os.ReadFile("testdata/" + tt.file + ".json")
 			require.NoError(t, err)
 
 			assert.JSONEq(t, string(expected), string(actual))

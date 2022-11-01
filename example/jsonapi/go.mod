@@ -1,6 +1,6 @@
 module github.com/dnozdrin/errdetail/example/json_api
 
-go 1.16
+go 1.13
 
 replace github.com/dnozdrin/errdetail => ../..
 

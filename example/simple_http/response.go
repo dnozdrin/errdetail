@@ -1,6 +1,6 @@
 // Copyright 2022 Dmytro Nozdrin. All rights reserved.
 // Use of this source code is governed by the MIT License
-// license that can be found in the LICENSE file.
+// that can be found in the LICENSE file.
 
 package simple_http
 

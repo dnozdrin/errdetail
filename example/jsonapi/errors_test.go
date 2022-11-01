@@ -1,12 +1,12 @@
 // Copyright 2022 Dmytro Nozdrin. All rights reserved.
 // Use of this source code is governed by the MIT License
-// license that can be found in the LICENSE file.
+// that can be found in the LICENSE file.
 
 package jsonapi_test
 
 import (
-	"embed"
 	"encoding/json"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -15,9 +15,6 @@ import (
 	"github.com/dnozdrin/errdetail"
 	. "github.com/dnozdrin/errdetail/example/json_api"
 )
-
-//go:embed testdata
-var testdata embed.FS
 
 func TestNewErrorResponse(t *testing.T) {
 	t.Parallel()
@@ -73,7 +70,7 @@ func TestNewErrorResponse(t *testing.T) {
 			actual, err := json.Marshal(got)
 			require.NoError(t, err)
 
-			expected, err := testdata.ReadFile("testdata/" + tt.file + ".json")
+			expected, err := os.ReadFile("testdata/" + tt.file + ".json")
 			require.NoError(t, err)
 
 			assert.JSONEq(t, string(expected), string(actual))
