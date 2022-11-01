@@ -7,7 +7,7 @@
 
 ---
 
-[![Language](https://img.shields.io/badge/Language-Go-blue.svg?style=flat-square)](https://golang.org/)
+[![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
 [![License](https://img.shields.io/github/license/dnozdrin/errdetail)](/LICENSE)
 [![Codecov](https://codecov.io/gh/dnozdrin/errdetail/branch/main/graph/badge.svg)](https://codecov.io/gh/dnozdrin/errdetail)
 [![Coreportcard](https://goreportcard.com/badge/github.com/dnozdrin/errdetail)](https://goreportcard.com/report/github.com/dnozdrin/errdetail)
@@ -16,7 +16,7 @@
 
 ## Usage
 
-#### Create detailed errors
+### Create a detailed error
 
 ```go
     err := errdetail.New(
@@ -31,7 +31,7 @@
     )
 ```
 
-#### Enrich existing errors with wrapper
+### Wrap existing error
 
 ```go
     err := errdetail.Wrap(
@@ -54,13 +54,26 @@
     )
 ```
 
-#### Use a set of provided errors constructors
+### Use provided error constructors
 
 ```go
     err := NewNotFound("discount not found", errdetail.NewDetail(errdetail.WithCode("order_discount_not_supported")))
 ```
 
-#### Transform errors details to a suitable presentation
+### Use predefined errors
+
+```go
+    func (s *Service) GetCached(ctx context.Context, id uuid.UUID) (Item, error) {
+		if item, ok := s.cache.Get(ctx, id); !ok {
+			return Item{}, errdetail.ErrNotFound
+        }
+		
+        // ...
+    }
+```
+
+
+### Transform errors details to a suitable presentation
 
 ```go
 
@@ -144,6 +157,8 @@ func extractDetails(err error) []ErrorDetail {
 }
 
 ```
+
+`ErrorResponse` encoded to JSON:
 
 ```json
 {
