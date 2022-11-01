@@ -4,25 +4,25 @@
 
 package http
 
-// ResponseStatus represents codes for exposing publicly instead of error messages.
-type ResponseStatus string
+// ResponseCode represents codes for exposing publicly instead of error messages.
+type ResponseCode string
 
 const (
-	statusInvalidArgument    ResponseStatus = "INVALID_ARGUMENT"
-	statusFailedPrecondition ResponseStatus = "FAILED_PRECONDITION"
-	statusOutOfRange         ResponseStatus = "OUT_OF_RANGE"
-	statusUnauthenticated    ResponseStatus = "UNAUTHENTICATED"
-	statusNotFound           ResponseStatus = "NOT_FOUND"
-	statusAborted            ResponseStatus = "ABORTED"
-	statusAlreadyExists      ResponseStatus = "ALREADY_EXISTS"
-	statusRemoved            ResponseStatus = "REMOVED"
-	statusPermissionDenied   ResponseStatus = "PERMISSION_DENIED"
-	statusResourceExhausted  ResponseStatus = "RESOURCE_EXHAUSTED"
-	statusDataCorrupted      ResponseStatus = "DATA_CORRUPTED"
-	statusInternal           ResponseStatus = "INTERNAL"
-	statusUnknown            ResponseStatus = "UNKNOWN"
-	statusNotImplemented     ResponseStatus = "NOT_IMPLEMENTED"
-	statusUnavailable        ResponseStatus = "UNAVAILABLE"
-	statusDeadlineExceeded   ResponseStatus = "DEADLINE_EXCEEDED"
-	statusCancelled          ResponseStatus = "CANCELLED"
+	statusInvalidArgument    ResponseCode = "INVALID_ARGUMENT"
+	statusFailedPrecondition ResponseCode = "FAILED_PRECONDITION"
+	statusOutOfRange         ResponseCode = "OUT_OF_RANGE"
+	statusUnauthenticated    ResponseCode = "UNAUTHENTICATED"
+	statusPermissionDenied   ResponseCode = "PERMISSION_DENIED"
+	statusNotFound           ResponseCode = "NOT_FOUND"
+	statusAborted            ResponseCode = "ABORTED"
+	statusAlreadyExists      ResponseCode = "ALREADY_EXISTS"
+	statusRemoved            ResponseCode = "REMOVED"
+	statusResourceExhausted  ResponseCode = "RESOURCE_EXHAUSTED"
+	statusDataCorrupted      ResponseCode = "DATA_CORRUPTED"
+	statusInternal           ResponseCode = "INTERNAL"
+	statusUnknown            ResponseCode = "UNKNOWN"
+	statusNotImplemented     ResponseCode = "NOT_IMPLEMENTED"
+	statusUnavailable        ResponseCode = "UNAVAILABLE"
+	statusDeadlineExceeded   ResponseCode = "DEADLINE_EXCEEDED"
+	statusCancelled          ResponseCode = "CANCELLED"
 )

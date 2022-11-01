@@ -1,8 +1,8 @@
 {
   "error": {
-    "code": 400,
-    "message": "bad request",
-    "status": "NOT_FOUND",
+    "status": 400,
+    "title": "invalid argument",
+    "code": "INVALID_ARGUMENT",
     "details": [
       {
         "domain": "user.auth",
@@ -13,7 +13,7 @@
       },
       {
         "domain": "user.auth",
-        "code": "invalid password",
+        "code": "invalid_password",
         "description": "password validation failed",
         "field": "user.password",
         "reason": "password is empty"

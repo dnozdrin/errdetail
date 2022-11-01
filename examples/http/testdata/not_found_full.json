@@ -1,8 +1,8 @@
 {
   "error": {
-    "code": 404,
-    "message": "not found full",
-    "status": "NOT_FOUND",
+    "status": 404,
+    "title": "not found",
+    "code": "NOT_FOUND",
     "details": [
       {
         "domain": "dummy_domain_1",
