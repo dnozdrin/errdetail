@@ -19,57 +19,57 @@
 ### Create a detailed error
 
 ```go
-    err := errdetail.New(
-		"bad request",
-        errdetail.NewDetail(
-            errdetail.WithDomain("user.auth"),
-            errdetail.WithCode("invalid_email"),
-            errdetail.WithDescription("email validation failed"),
-            errdetail.WithField("user.email"),
-            errdetail.WithReason("invalid character detected: \"#\""),
-        )
+err := errdetail.New(
+    "bad request",
+    errdetail.NewDetail(
+        errdetail.WithDomain("user.auth"),
+        errdetail.WithCode("invalid_email"),
+        errdetail.WithDescription("email validation failed"),
+        errdetail.WithField("user.email"),
+        errdetail.WithReason("invalid character detected: \"#\""),
     )
+)
 ```
 
 ### Wrap existing error
 
 ```go
-    err := errdetail.Wrap(
-        errdetail.ErrInvalidArgument,
-        "bad request",
-        errdetail.NewDetail(
-            errdetail.WithDomain("user.auth"),
-            errdetail.WithCode("invalid_email"),
-            errdetail.WithDescription("email validation failed"),
-            errdetail.WithField("user.email"),
-            errdetail.WithReason("invalid character detected: \"#\""),
-        ),
-        errdetail.NewDetail(
-            errdetail.WithDomain("user.auth"),
-            errdetail.WithCode("invalid_password"),
-            errdetail.WithDescription("password validation failed"),
-            errdetail.WithField("user.password"),
-            errdetail.WithReason("password is empty"),
-        ),
-    )
+err := errdetail.Wrap(
+    errdetail.ErrInvalidArgument,
+    "bad request",
+    errdetail.NewDetail(
+        errdetail.WithDomain("user.auth"),
+        errdetail.WithCode("invalid_email"),
+        errdetail.WithDescription("email validation failed"),
+        errdetail.WithField("user.email"),
+        errdetail.WithReason("invalid character detected: \"#\""),
+    ),
+    errdetail.NewDetail(
+        errdetail.WithDomain("user.auth"),
+        errdetail.WithCode("invalid_password"),
+        errdetail.WithDescription("password validation failed"),
+        errdetail.WithField("user.password"),
+        errdetail.WithReason("password is empty"),
+    ),
+)
 ```
 
 ### Use provided error constructors
 
 ```go
-    err := NewNotFound("discount not found", errdetail.NewDetail(errdetail.WithCode("order_discount_not_supported")))
+err := NewNotFound("discount not found", errdetail.NewDetail(errdetail.WithCode("order_discount_not_supported")))
 ```
 
 ### Use predefined errors
 
 ```go
-    func (s *Service) GetCached(ctx context.Context, id uuid.UUID) (Item, error) {
-		if item, ok := s.cache.Get(ctx, id); !ok {
-			return Item{}, errdetail.ErrNotFound
-        }
-		
-        // ...
+func (s *Service) GetCached(ctx context.Context, id uuid.UUID) (Item, error) {
+    if item, ok := s.cache.Get(ctx, id); !ok {
+        return Item{}, errdetail.ErrNotFound
     }
+    
+    // ...
+}
 ```
 
 
