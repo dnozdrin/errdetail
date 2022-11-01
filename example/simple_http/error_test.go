@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT License
 // license that can be found in the LICENSE file.
 
-package http_test
+package simple_http_test
 
 import (
 	"context"
@@ -15,7 +15,8 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/dnozdrin/errdetail"
-	. "github.com/dnozdrin/errdetail/examples/http"
+
+	. "github.com/dnozdrin/errdetail/example/simple_http"
 )
 
 //go:embed testdata

@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT License
 // license that can be found in the LICENSE file.
 
-package http
+package simple_http
 
 // ResponseCode represents codes for exposing publicly instead of error messages.
 type ResponseCode string
