@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/dnozdrin/errdetail"
-	. "github.com/dnozdrin/errdetail/examples/validation"
+	. "github.com/dnozdrin/errdetail/example/validation"
 )
 
 func TestValidateUser(t *testing.T) {
