@@ -1,0 +1,941 @@
+# last revision for golangci-lint version 1.50.1
+
+run:
+  timeout: 1m
+  issues-exit-code: 1
+  tests: true
+  build-tags: [ ]
+  skip-dirs: [ ]
+  skip-dirs-use-default: true
+  skip-files: [ ]
+  modules-download-mode: readonly
+  allow-parallel-runners: true
+  go: '1.13'
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+  uniq-by-line: true
+  path-prefix: ""
+  sort-results: true
+
+linters-settings:
+  asasalint:
+    exclude:
+      - Append
+      - \.Wrapf
+    use-builtin-exclusions: true
+    ignore-test: true
+
+  bidichk:
+    left-to-right-embedding: true
+    right-to-left-embedding: true
+    pop-directional-formatting: true
+    left-to-right-override: true
+    right-to-left-override: true
+    left-to-right-isolate: true
+    right-to-left-isolate: true
+    first-strong-isolate: true
+    pop-directional-isolate: true
+
+  cyclop:
+    max-complexity: 10
+    package-average: 1.5
+    skip-tests: true
+
+  decorder:
+    disable-dec-order-check: true
+    disable-init-func-first-check: false
+    disable-dec-num-check: true
+
+  depguard:
+    list-type: denylist
+    include-go-root: false
+    packages:
+      - github.com/pkg/errors
+    packages-with-error-message:
+      - github/com/pkg/errors: 'use "fmt" and "errors" packages instead'
+    ignore-file-rules: []
+    additional-guards: []
+
+  dogsled:
+    max-blank-identifiers: 2
+
+  dupl:
+    threshold: 200
+
+  dupword:
+    keywords:
+      - "the"
+      - "and"
+      - "or"
+      - "a"
+      - "license"
+
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+    disable-default-exclusions: false
+    exclude-functions: []
+
+  errchkjson:
+    check-error-free-encoding: false
+    report-no-exported: true
+
+  errorlint:
+    errorf: true
+    asserts: true
+    comparison: true
+
+  exhaustive:
+    check:
+      - switch
+      - map
+    check-generated: true
+    default-signifies-exhaustive: true
+    ignore-enum-members: ""
+    package-scope-only: false
+    explicit-exhaustive-switch: false
+    explicit-exhaustive-map: false
+
+  exhaustruct:
+    include: []
+    exclude:
+      - '.*_test'
+      - 'wrapper'
+
+  forbidigo:
+    forbid: ["^(fmt\\.Print(|f|ln)|print|println)$"]
+    exclude_godoc_examples: true
+
+  funlen:
+    lines: 60
+    statements: 40
+
+  gocognit:
+    min-complexity: 10
+
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+    ignore-tests: false
+    match-constant: true
+    numbers: false
+
+  gocritic:
+#    enabled-checks: [] # by default, list of stable checks is used
+    disabled-checks:
+     - tooManyResultsChecker # revive will take care
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+      - experimental
+      - opinionated
+    disabled-tags: []
+    settings:
+      captLocal:
+        paramsOnly: true
+      elseif:
+        skipBalanced: true
+      hugeParam:
+        sizeThreshold: 70
+      nestingReduce:
+        bodyWidth: 4
+      rangeExprCopy:
+        sizeThreshold: 516
+        skipTestFuncs: false
+      rangeValCopy:
+        sizeThreshold: 32
+        skipTestFuncs: true
+      truncateCmp:
+        skipArchDependent: false
+      underef:
+        skipRecvDeref: true
+
+  godot:
+    scope: toplevel
+    exclude:
+      - "^fixme:"
+      - "^todo:"
+      - "^TODO:"
+    period: true
+    capital: true
+
+  godox:
+    keywords:
+      - TODO
+      - BUG
+      - FIXME
+
+  gofmt:
+    simplify: false
+    rewrite-rules: []
+
+  gofumpt:
+    module-path: github.com/dnozdrin/errdetail
+    extra-rules: true
+
+  goheader:
+    template: |-
+      Copyright 2022 Dmytro Nozdrin. All rights reserved.
+      Use of this source code is governed by the MIT License
+      that can be found in the LICENSE file.
+
+  goimports:
+    local-prefixes: ""
+
+  gomnd:
+    checks:
+      - argument
+      - case
+      - condition
+      - operation
+      - return
+      - assign
+    ignored-numbers: []
+    ignored-files: []
+    ignored-functions:
+      - 'math.*'
+
+  gomoddirectives:
+    replace-local: true
+    replace-allow-list:
+      - github.com/dnozdrin/errdetail
+    retract-allow-no-explanation: false
+    exclude-forbidden: true
+
+  gomodguard:
+    allowed:
+      modules: []
+      domains: []
+    blocked:
+      modules: []
+      versions: []
+      local_replace_directives: false
+
+  gosimple:
+    checks:  ["*"]
+
+  gosec:
+    includes:
+      - G101 # Look for hard coded credentials
+      - G102 # Bind to all interfaces
+      - G103 # Audit the use of unsafe block
+      - G104 # Audit errors not checked
+      - G106 # Audit the use of ssh.InsecureIgnoreHostKey
+      - G107 # Url provided to HTTP request as taint input
+      - G108 # Profiling endpoint automatically exposed on /debug/pprof
+      - G109 # Potential Integer overflow made by strconv.Atoi result conversion to int16/32
+      - G110 # Potential DoS vulnerability via decompression bomb
+      - G111 # Potential directory traversal
+      - G112 # Potential slowloris attack
+      - G113 # Usage of Rat.SetString in math/big with an overflow (CVE-2022-23772)
+      - G114 # Use of net/http serve function that has no support for setting timeouts
+      - G201 # SQL query construction using format string
+      - G202 # SQL query construction using string concatenation
+      - G203 # Use of unescaped data in HTML templates
+      - G204 # Audit use of command execution
+      - G301 # Poor file permissions used when creating a directory
+      - G302 # Poor file permissions used with chmod
+      - G303 # Creating tempfile using a predictable path
+      - G304 # File path provided as taint input
+      - G305 # File traversal when extracting zip/tar archive
+      - G306 # Poor file permissions used when writing to a new file
+      - G307 # Deferring a method which returns an error
+      - G401 # Detect the usage of DES, RC4, MD5 or SHA1
+      - G402 # Look for bad TLS connection settings
+      - G403 # Ensure minimum RSA key length of 2048 bits
+      - G404 # Insecure random number source (rand)
+      - G501 # Import blocklist: crypto/md5
+      - G502 # Import blocklist: crypto/des
+      - G503 # Import blocklist: crypto/rc4
+      - G504 # Import blocklist: net/http/cgi
+      - G505 # Import blocklist: crypto/sha1
+      - G601 # Implicit memory aliasing of items from a range statement
+    excludes:  []
+    exclude-generated: false
+    severity: low
+    confidence: low
+#    concurrency: 12 # rely on the number of logical CPUs usable by the current process.
+
+    config:
+      global:
+        nosec: false
+        "#nosec": ""
+        show-ignored: false
+        # Audit mode enables addition checks that for normal code analysis might be too nosy.
+        # Default: false
+        audit: true
+      G101:
+        pattern: "(?i)passwd|pass|password|pwd|secret|token|pw|apiKey|bearer|cred"
+        ignore_entropy: false
+        entropy_threshold: "80.0"
+        per_char_threshold: "3.0"
+        truncate: "32"
+      G104: # Additional functions to ignore while checking unhandled errors.
+        bytes.Buffer:
+         - Write
+         - WriteByte
+         - WriteRune
+         - WriteString
+        fmt:
+         - Print
+         - Printf
+         - Println
+         - Fprint
+         - Fprintf
+         - Fprintln
+        strings.Builder:
+         - Write
+         - WriteByte
+         - WriteRune
+         - WriteString
+        io.PipeWriter:
+         - CloseWithError
+        hash.Hash:
+         - Write
+        os:
+         - Unsetenv
+      G111:
+        # Regexp pattern to find potential directory traversal.
+        pattern: "http\\.Dir\\(\"\\/\"\\)|http\\.Dir\\('\\/'\\)"
+      # Maximum allowed permissions mode for os.Mkdir and os.MkdirAll
+      G301: "0750"
+      # Maximum allowed permissions mode for os.OpenFile and os.Chmod
+      G302: "0600"
+      # Maximum allowed permissions mode for os.WriteFile and ioutil.WriteFile
+      G306: "0600"
+
+  govet:
+    check-shadowing: true
+    settings:
+      shadow:
+        strict: false
+
+    enable:
+      - asmdecl
+      - assign
+      - atomic
+      - atomicalign
+      - bools
+      - buildtag
+      - cgocall
+      - composites
+      - copylocks
+      - deepequalerrors
+      - errorsas
+      - findcall
+      - framepointer
+      - httpresponse
+      - ifaceassert
+      - loopclosure
+      - lostcancel
+      - nilfunc
+      - nilness
+      - printf
+      - reflectvaluecompare
+      - shadow
+      - shift
+      - sigchanyzer
+      - sortslice
+      - stdmethods
+      - stringintconv
+      - structtag
+      - testinggoroutine
+      - tests
+      - unmarshal
+      - unreachable
+      - unsafeptr
+      - unusedresult
+      - unusedwrite
+    disable: []
+
+  grouper:
+    const-require-single-const: false
+    const-require-grouping: false
+    import-require-single-import: true
+    import-require-grouping: true
+    type-require-single-type: false
+    type-require-grouping: false
+    var-require-single-var: false
+    var-require-grouping: false
+
+  ifshort:
+    # Maximum length of variable declaration measured in number of lines, after which linter won't suggest using short syntax.
+    # Has higher priority than max-decl-chars.
+    # Default: 1
+    max-decl-lines: 2
+    # Maximum length of variable declaration measured in number of characters, after which linter won't suggest using short syntax.
+    # Default: 30
+    max-decl-chars: 40
+
+  importas:
+    no-unaliased: true
+    no-extra-aliases: true
+    alias: []
+
+  interfacebloat:
+    max: 5
+
+  ireturn:
+    allow:
+      - anon
+      - error
+      - empty
+      - stdlib
+#      - (or|er)$
+    reject: []
+
+  loggercheck:
+    kitlog: false
+    klog: false
+    logr: false
+    zap: false
+    require-string-key: true
+    no-printf-like: true
+    rules: []
+  maintidx:
+    under: 20
+
+  makezero:
+    # Allow only slices initialized with a length of zero.
+    # Default: false
+    always: true
+
+  misspell:
+    ignore-words: []
+
+  nakedret:
+    # Make an issue if func has more lines of code than this setting, and it has naked returns.
+    # Default: 30
+    max-func-lines: 31
+
+  nestif:
+    # Minimal complexity of if statements to report.
+    # Default: 5
+    min-complexity: 4
+
+  nilnil:
+    checked-types:
+      - ptr
+      - func
+      - iface
+      - map
+      - chan
+
+  nlreturn:
+    block-size: 2
+
+  nolintlint:
+    allow-unused: false
+    allow-no-explanation: [ ]
+    require-explanation: true
+    require-specific: true
+
+  nonamedreturns:
+    report-error-in-defer: false
+
+  paralleltest:
+    ignore-missing: true
+
+  prealloc:
+    simple: false
+    range-loops: true
+    for-loops: true
+
+  predeclared:
+    # Comma-separated list of predeclared identifiers to not report on.
+    # Default: ""
+    ignore: "new,int"
+    # Include method names and field names (i.e., qualified names) in checks.
+    # Default: false
+    q: true
+
+  promlinter:
+    strict: true
+    disabled-linters: []
+
+  reassign:
+    patterns:
+      - ".*"
+
+  revive:
+    max-open-files: 2048
+    ignore-generated-header: true
+    severity: warning
+    enable-all-rules: false
+    confidence: 0.5
+
+    rules:
+      - name: add-constant
+        severity: warning
+        disabled: false
+        arguments:
+          - maxLitCount: "3"
+            allowStrs: '"","dummy_code","dummy description","dummy message","dummy field","dummy message: "'
+            allowInts: "0,1,2"
+            allowFloats: "0.0,0.,1.0,1.,2.0,2."
+      - name: argument-limit
+        severity: warning
+        disabled: false
+        arguments: [ 4 ]
+      - name: atomic
+        severity: warning
+        disabled: false
+      - name: banned-characters
+        severity: warning
+        disabled: true
+        arguments: []
+      - name: bare-return
+        severity: warning
+        disabled: false
+      - name: blank-imports
+        severity: warning
+        disabled: false
+      - name: bool-literal-in-expr
+        severity: warning
+        disabled: false
+      - name: call-to-gc
+        severity: warning
+        disabled: false
+      - name: cognitive-complexity
+        severity: warning
+        disabled: false
+        arguments: [ 10 ]
+      - name: confusing-naming
+        severity: warning
+        disabled: false
+      - name: confusing-results
+        severity: warning
+        disabled: false
+      - name: constant-logical-expr
+        severity: warning
+        disabled: false
+      - name: context-as-argument
+        severity: warning
+        disabled: false
+        arguments:
+          - allowTypesBefore: "*testing.T,"
+      - name: context-keys-type
+        severity: warning
+        disabled: false
+      - name: cyclomatic
+        severity: warning
+        disabled: false
+        arguments: [ 8 ]
+      - name: datarace
+        severity: warning
+        disabled: false
+      - name: deep-exit
+        severity: warning
+        disabled: false
+      - name: defer
+        severity: warning
+        disabled: false
+        arguments:
+          - [ "call-chain", "loop" , "recover", "immediate-recover", "return"]
+      - name: dot-imports
+        severity: warning
+        disabled: false
+      - name: duplicated-imports
+        severity: warning
+        disabled: false
+      - name: early-return
+        severity: warning
+        disabled: false
+      - name: empty-block
+        severity: warning
+        disabled: false
+      - name: empty-lines
+        severity: warning
+        disabled: false
+      - name: error-naming
+        severity: warning
+        disabled: false
+      - name: error-return
+        severity: warning
+        disabled: false
+      - name: error-strings
+        severity: warning
+        disabled: false
+      - name: errorf
+        severity: warning
+        disabled: false
+      - name: exported
+        severity: warning
+        disabled: false
+        arguments:
+          - "checkPrivateReceivers"
+          - "sayRepetitiveInsteadOfStutters"
+      - name: file-header
+        severity: warning
+        disabled: true
+        arguments: []
+      - name: flag-parameter
+        severity: warning
+        disabled: false
+      - name: function-result-limit
+        severity: warning
+        disabled: false
+        arguments: [ 2 ]
+      - name: function-length
+        severity: warning
+        disabled: false
+        arguments: [ 15, 0 ]
+      - name: get-return
+        severity: warning
+        disabled: false
+      - name: identical-branches
+        severity: warning
+        disabled: false
+      - name: if-return
+        severity: warning
+        disabled: false
+      - name: increment-decrement
+        severity: warning
+        disabled: false
+      - name: indent-error-flow
+        severity: warning
+        disabled: false
+      - name: imports-blacklist
+        severity: warning
+        disabled: true
+        arguments: []
+      - name: import-shadowing
+        severity: warning
+        disabled: false
+      - name: line-length-limit
+        severity: warning
+        disabled: false
+        arguments: [ 120 ]
+      - name: max-public-structs
+        severity: warning
+        disabled: false
+        arguments: [ 5 ]
+      - name: modifies-parameter
+        severity: warning
+        disabled: false
+      - name: modifies-value-receiver
+        severity: warning
+        disabled: false
+      - name: nested-structs
+        severity: warning
+        disabled: false
+      - name: optimize-operands-order
+        severity: warning
+        disabled: false
+      - name: package-comments
+        severity: warning
+        disabled: false
+      - name: range
+        severity: warning
+        disabled: false
+      - name: range-val-in-closure
+        severity: warning
+        disabled: false
+      - name: range-val-address
+        severity: warning
+        disabled: false
+      - name: receiver-naming
+        severity: warning
+        disabled: false
+      - name: redefines-builtin-id
+        severity: warning
+        disabled: false
+      - name: string-of-int
+        severity: warning
+        disabled: false
+      - name: string-format
+        severity: warning
+        disabled: false
+        arguments: [
+          [ "core.WriteError[1].Message", "/^([^A-Z]|$)/", "must not start with a capital letter"],
+          [ "fmt.Errorf[0]", "/(^|[^\\.!?])$/", "must not end in punctuation"],
+          [ "panic", "/^[^\\n]*$/", "must not contain line breaks"]
+        ]
+      - name: struct-tag
+        severity: warning
+        disabled: false
+      - name: superfluous-else
+        severity: warning
+        disabled: false
+      - name: time-equal
+        severity: warning
+        disabled: false
+      - name: time-naming
+        severity: warning
+        disabled: false
+      - name: var-naming
+        severity: warning
+        disabled: false
+        arguments:
+          - [ "ID" ] # AllowList
+          - [ "Id", "Info" ] # DenyList
+      - name: var-declaration
+        severity: warning
+        disabled: false
+      - name: unconditional-recursion
+        severity: warning
+        disabled: false
+      - name: unexported-naming
+        severity: warning
+        disabled: false
+      - name: unexported-return
+        severity: warning
+        disabled: false
+      - name: unhandled-error
+        severity: warning
+        disabled: true
+        arguments: []
+      - name: unnecessary-stmt
+        severity: warning
+        disabled: false
+      - name: unreachable-code
+        severity: error
+        disabled: false
+      - name: unused-parameter
+        severity: error
+        disabled: false
+      - name: unused-receiver
+        severity: error
+        disabled: false
+      - name: useless-break
+        severity: warning
+        disabled: false
+      - name: waitgroup-by-value
+        severity: error
+        disabled: false
+
+  rowserrcheck:
+    packages: []
+
+  staticcheck:
+    checks: ["*"]
+
+  stylecheck:
+    checks: [ "*" ]
+    dot-import-whitelist: []
+    initialisms: [ "ACL", "API", "ASCII", "CPU", "CSS", "DNS", "EOF", "GUID", "HTML", "HTTP", "HTTPS", "ID", "IP", "JSON", "QPS", "RAM", "RPC", "SLA", "SMTP", "SQL", "SSH", "TCP", "TLS", "TTL", "UDP", "UI", "GID", "UID", "UUID", "URI", "URL", "UTF8", "VM", "XML", "XMPP", "XSRF", "XSS", "SIP", "RTP", "AMQP", "DB", "TS" ]
+    http-status-code-whitelist: []
+
+  tagliatelle:
+    case:
+      use-field-name: true
+      rules:
+        json: camel
+        yaml: camel
+        xml: camel
+        bson: camel
+        avro: snake
+
+  tenv:
+    all: true
+
+  testpackage:
+    skip-regexp: (export|internal)_test\.go
+    allow-packages:
+      - example
+      - main
+      - test
+
+  thelper:
+    test:
+      first: true
+      begin: true
+    benchmark:
+      first: true
+      name: true
+      begin: true
+    tb:
+      first: true
+      name: true
+      begin: true
+    fuzz:
+      first: true
+      name: true
+      begin: true
+
+  usestdlibvars:
+    http-method: true
+    http-status-code: true
+    time-weekday: true
+    time-month: true
+    time-layout: true
+    crypto-hash: true
+    default-rpc-path: true
+    os-dev-null: true
+    sql-isolation-level: true
+    tls-signature-scheme: true
+    constant-kind: true
+    syslog-priority: true
+
+  unparam:
+    check-exported: false
+
+  varnamelen:
+    max-distance: 15
+    min-name-length: 3
+    check-receiver: true
+    check-return: true
+    check-type-param: true
+    ignore-type-assert-ok: false
+    ignore-map-index-ok: false
+    ignore-chan-recv-ok: false
+    ignore-names:
+      - err
+      - tt
+    ignore-decls:
+      - c echo.Context
+      - t testing.T
+      - f *foo.Bar
+      - e error
+      - i int
+      - const C
+      - T any
+      - m map[string]int
+
+  whitespace:
+    multi-if: true
+    multi-func: true
+
+  wrapcheck:
+    ignoreSigs:
+      - .Errorf(
+      - errors.New(
+      - errdetail.Wrap(
+      - errdetail.New(
+    ignoreSigRegexps:
+      - \.New.*Error\(
+    ignorePackageGlobs: []
+
+  wsl:
+    strict-append: true
+    allow-assign-and-call: true
+    allow-assign-and-anything: false
+    allow-multiline-assign: false
+    force-case-trailing-whitespace: 1
+    allow-trailing-comment: false
+    allow-separated-leading-comment: true
+    allow-cuddle-declarations: false
+    allow-cuddle-with-calls: [ "Lock", "RLock" ]
+    allow-cuddle-with-rhs: [ "Unlock", "RUnlock" ]
+    enforce-err-cuddling: true
+    error-variable-names: [ "err" ]
+    force-short-decl-cuddling: true
+
+linters:
+  disable-all: true
+  enable:
+    - asasalint
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - containedctx
+    - contextcheck
+    - cyclop
+    - decorder
+    - depguard
+    - dogsled
+    - dupl
+    - dupword
+    - errcheck
+    - errchkjson
+    - errname
+    - errorlint
+#    - execinquery # no need for this package
+    - exhaustive
+    - exhaustruct
+    - exportloopref
+    - forbidigo
+    - forcetypeassert
+    - funlen
+    - gochecknoglobals
+    - gochecknoinits
+    - gocognit
+    - goconst
+    - gocritic
+    - godot
+    - godox
+    - goerr113
+    - gofmt
+    - gofumpt
+    - goheader
+    - goimports
+    - gomnd
+    - gomoddirectives
+    - gomodguard # no need for this package for a while
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - grouper
+#    - importas # no need for this package
+    - ineffassign
+    - interfacebloat
+    - ireturn
+#    - loggercheck # no need for this package
+    - maintidx
+    - misspell
+#    - nakedret # revive takes care of it
+    - nestif
+    - nilerr
+    - nilnil
+    - nlreturn
+    - noctx
+    - nolintlint
+    - nonamedreturns
+    - nosprintfhostport
+    - paralleltest
+    - prealloc
+    - predeclared
+#    - promlinter # no need for this package
+    - reassign
+    - revive
+    - rowserrcheck
+    - sqlclosecheck
+    - staticcheck
+    - stylecheck
+    - tagliatelle
+    - tenv
+    - testableexamples
+    - testpackage
+    - thelper
+    - tparallel
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - usestdlibvars
+    - varnamelen
+    - wastedassign
+    - whitespace
+    - wrapcheck
+    - wsl
+
+  presets: []
+  fast: false
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - funlen
+
+  exclude-use-default: true
+  exclude-case-sensitive: false
+  include:
+    - EXC0001
+    - EXC0009
+
+  max-issues-per-linter: 50
+  max-same-issues: 20
+  new: false # no need for this package
+  new-from-rev: HEAD
+  fix: false
+
+severity:
+  default-severity: error
+  case-sensitive: false
+  rules: []
