@@ -1,8 +1,8 @@
 <div align="center">
   <img alt="errdetails logo" src="assets/go.png" height="150" />
 
-  <h3>Go Error Details</h3>
-  <p>Enrich errors by context information.</p>
+  <h3>Errdetails</h3>
+  <p>Enrich Go errors by context information.</p>
 </div>
 
 ---
@@ -63,15 +63,14 @@ err := NewNotFound("discount not found", errdetail.NewDetail(errdetail.WithCode(
 ### Use predefined errors
 
 ```go
-func (s *Service) GetCached(ctx context.Context, id uuid.UUID) (Item, error) {
-    if item, ok := s.cache.Get(ctx, id); !ok {
+func (a *Adapter) Get(ctx context.Context, id uuid.UUID) (Item, error) {
+    if item, ok := a.storage.Get(ctx, id); !ok {
         return Item{}, errdetail.ErrNotFound
     }
     
     // ...
 }
 ```
-
 
 ### Transform errors details to a suitable presentation
 
