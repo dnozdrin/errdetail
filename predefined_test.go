@@ -21,6 +21,7 @@ func TestErrorConstructors(t *testing.T) {
 		msg     string
 		details []Detail
 	}
+
 	tests := []struct {
 		name        string
 		constructor func(string, ...Detail) error
@@ -153,6 +154,7 @@ func TestErrorConstructors(t *testing.T) {
 			},
 		},
 	}
+
 	for i := range tests {
 		tt := tests[i]
 

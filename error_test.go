@@ -22,6 +22,7 @@ func TestNew(t *testing.T) {
 		msg     string
 		details []Detail
 	}
+
 	tests := []struct {
 		name        string
 		args        args
@@ -74,6 +75,7 @@ func TestNew(t *testing.T) {
 			},
 		},
 	}
+
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
@@ -164,6 +166,7 @@ func TestWrapNil(t *testing.T) {
 			},
 		},
 	}
+
 	for _, tt := range tests {
 		tt := tt
 
@@ -184,6 +187,7 @@ func TestWrap(t *testing.T) {
 		msg     string
 		details []Detail
 	}
+
 	type want struct {
 		msg     string
 		details []Detail
@@ -308,6 +312,7 @@ func TestWrap(t *testing.T) {
 			},
 		},
 	}
+
 	for _, tt := range tests {
 		tt := tt
 

@@ -6,7 +6,7 @@ package errdetail
 
 type predefined string
 
-// Error is the `error` interface implementation for the `predefined` type
+// Error is the `error` interface implementation for the `predefined` type.
 func (e predefined) Error() string {
 	return string(e)
 }

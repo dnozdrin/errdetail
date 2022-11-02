@@ -26,6 +26,7 @@ func TestDetail(t *testing.T) {
 		domain      string
 		reason      string
 	}
+
 	tests := []struct {
 		name   string
 		args   args
@@ -65,6 +66,7 @@ func TestDetail(t *testing.T) {
 			values: values{},
 		},
 	}
+
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
@@ -87,6 +89,7 @@ func TestExtractDetails(t *testing.T) {
 	type args struct {
 		err error
 	}
+
 	tests := []struct {
 		name string
 		args args
@@ -134,6 +137,7 @@ func TestExtractDetails(t *testing.T) {
 			},
 		},
 	}
+
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {

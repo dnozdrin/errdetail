@@ -20,28 +20,28 @@ type Detail struct {
 }
 
 // Field is a Detail field getter.
-func (d Detail) Field() string {
+func (d *Detail) Field() string {
 	return d.field
 }
 
 // Description is a Detail description getter.
-func (d Detail) Description() string {
+func (d *Detail) Description() string {
 	return d.description
 }
 
 // Code is a Detail code getter.
-func (d Detail) Code() string {
+func (d *Detail) Code() string {
 	return d.code
 }
 
 // Domain is a Detail domain getter.
 // Domain stands here for a specified sphere of activity or knowledge.
-func (d Detail) Domain() string {
+func (d *Detail) Domain() string {
 	return d.domain
 }
 
 // Reason is a Detail reason getter.
-func (d Detail) Reason() string {
+func (d *Detail) Reason() string {
 	return d.reason
 }
 

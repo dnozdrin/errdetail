@@ -21,19 +21,17 @@ func New(msg string, details ...Detail) error {
 // Wrap allows to wrap errors and add details to them.
 func Wrap(err error, msg string, details ...Detail) error {
 	if err != nil {
+		wrapped := &wrapper{underlying: err}
+
 		if msg != "" {
-			msg = fmt.Sprintf("%s: %s", msg, err.Error())
+			wrapped.msg = fmt.Sprintf("%s: %s", msg, err.Error())
 		} else {
-			msg = err.Error()
+			wrapped.msg = err.Error()
 		}
 
-		extracted := ExtractDetails(err)
-		details = filter(extracted, details)
-		return &wrapper{
-			msg:        msg,
-			underlying: err,
-			details:    details,
-		}
+		wrapped.details = filter(ExtractDetails(err), details)
+
+		return wrapped
 	}
 
 	return nil
@@ -48,7 +46,7 @@ func filter(src ...[]Detail) []Detail {
 	result := make([]Detail, total)
 
 	var n int
-	for i := range src {
+	for i := range src { //nolint:wsl // false positive
 		for j := range src[i] {
 			if src[i][j].filled {
 				result[n] = src[i][j]
