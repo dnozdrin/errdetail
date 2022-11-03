@@ -1,0 +1,30 @@
+{
+  "error": {
+    "status": 404,
+    "title": "not found",
+    "code": "NOT_FOUND",
+    "details": [
+      {
+        "domain": "dummy_domain_1",
+        "code": "dummy_code_1",
+        "description": "dummy_description_1",
+        "field": "dummy_field_1",
+        "reason": "dummy_reason_1"
+      },
+      {
+        "domain": "dummy_domain_2",
+        "code": "dummy_code_2",
+        "description": "dummy_description_2",
+        "field": "dummy_field_2",
+        "reason": "dummy_reason_2"
+      },
+      {
+        "domain": "dummy_domain_3",
+        "code": "dummy_code_3",
+        "description": "dummy_description_3",
+        "field": "dummy_field_3",
+        "reason": "dummy_reason_3"
+      }
+    ]
+  }
+}

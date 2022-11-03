@@ -1,0 +1,18 @@
+{
+  "error": {
+    "status": 500,
+    "title": "data corrupted",
+    "code": "DATA_CORRUPTED",
+    "details": [
+      {
+        "domain": "dummy_domain_1",
+        "code": "dummy_code_1"
+      },
+      {
+        "description": "dummy_description_2",
+        "field": "dummy_field_2",
+        "reason": "dummy_reason_2"
+      }
+    ]
+  }
+}

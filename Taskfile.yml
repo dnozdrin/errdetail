@@ -12,6 +12,10 @@ vars:
 tasks:
   setup:
     desc: Setup dependencies
+    deps:
+      - examples:setup:jsonapi
+      - examples:setup:simple-http
+      - examples:setup:validation
     cmds:
       - go mod tidy
       - go mod download
@@ -30,6 +34,42 @@ tasks:
       - 'go test -race -coverprofile=coverage.txt -covermode=atomic ./...'
 
 # Internal tasks
+  examples:setup:jsonapi:
+    desc: Setup dependencies for JSON:API example
+    internal: true
+    sources:
+      - ./go.mod
+      - ./go.sum
+      - ./*.go
+    dir: ./examples/jsonapi
+    cmds:
+      - go mod tidy
+      - go mod download
+
+  examples:setup:simple-http:
+    desc: Setup dependencies for simple HTTP response example
+    internal: true
+    sources:
+      - ./go.mod
+      - ./go.sum
+      - ./*.go
+    dir: ./examples/simple_http
+    cmds:
+      - go mod tidy
+      - go mod download
+
+  examples:setup:validation:
+    desc: Setup dependencies for validation example
+    internal: true
+    sources:
+      - ./go.mod
+      - ./go.sum
+      - ./*.go
+    dir: ./examples/validation
+    cmds:
+      - go mod tidy
+      - go mod download
+
   install:golangci:
     desc: Install the correct version of the golangci-lint binary
     internal: true

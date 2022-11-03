@@ -1,0 +1,24 @@
+{
+  "error": {
+    "status": 400,
+    "title": "invalid argument",
+    "code": "INVALID_ARGUMENT",
+    "details": [
+      {
+        "domain": "user.auth",
+        "code": "invalid_email",
+        "description": "email validation failed",
+        "field": "user.email",
+        "reason": "an invalid character has been detected in the provided sequence"
+      },
+      {
+        "domain": "user.auth",
+        "code": "invalid_password",
+        "description": "password validation failed",
+        "field": "user.password",
+        "reason": "password is empty"
+      }
+    ]
+  }
+}
+

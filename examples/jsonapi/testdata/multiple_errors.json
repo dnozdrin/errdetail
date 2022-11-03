@@ -1,0 +1,26 @@
+{
+  "errors": [
+    {
+      "status": "400",
+      "code": "invalid_email",
+      "title": "Invalid email",
+      "detail": "Email address \"lol@kek@cheburek\" is not valid.",
+      "meta": {
+        "field": "user.email",
+        "domain": "user.management"
+      }
+    },
+    {
+      "status": "403",
+      "code": "admin_required",
+      "title": "Permission denied",
+      "detail": "Editing secret powers is not authorized on Sundays."
+    },
+    {
+      "status": "500",
+      "code": "internal",
+      "title": "The backend responded with an error",
+      "detail": "Reputation service not responding after three requests."
+    }
+  ]
+}

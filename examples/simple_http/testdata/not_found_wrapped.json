@@ -1,0 +1,7 @@
+{
+  "error": {
+    "status": 404,
+    "title": "not found",
+    "code": "NOT_FOUND"
+  }
+}
