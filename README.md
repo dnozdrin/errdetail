@@ -11,6 +11,7 @@
 [![License](https://img.shields.io/github/license/dnozdrin/errdetail)](/LICENSE)
 [![Codecov](https://codecov.io/gh/dnozdrin/errdetail/branch/main/graph/badge.svg)](https://codecov.io/gh/dnozdrin/errdetail)
 [![Coreportcard](https://goreportcard.com/badge/github.com/dnozdrin/errdetail)](https://goreportcard.com/report/github.com/dnozdrin/errdetail)
+[![GitHub CI](https://github.com/dnozdrin/errdetail/actions/workflows/ci.yml/badge.svg)](https://github.com/dnozdrin/errdetail/actions/workflows/ci.yml)
 [![Go Reference](https://pkg.go.dev/badge/github.com/dnozdrin/errdetail.svg?style=flat-square)](https://pkg.go.dev/github.com/dnozdrin/errdetail)
 [![Release](https://img.shields.io/github/release/dnozdrin/errdetail.svg)](https://github.com/dnozdrin/errdetail/releases/latest)
 
