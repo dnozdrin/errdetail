@@ -10,7 +10,7 @@ run:
   skip-files: [ ]
   modules-download-mode: readonly
   allow-parallel-runners: true
-  go: '1.13'
+  go: '1.19'
 
 output:
   format: colored-line-number
@@ -865,7 +865,7 @@ linters:
     - goimports
     - gomnd
     - gomoddirectives
-    - gomodguard # no need for this package for a while
+#    - gomodguard # no need for this package for a while
     - goprintffuncname
     - gosec
     - gosimple
@@ -893,8 +893,8 @@ linters:
 #    - promlinter # no need for this package
     - reassign
     - revive
-    - rowserrcheck
-    - sqlclosecheck
+#    - rowserrcheck # no need for this package
+#    - sqlclosecheck # no need for this package
     - staticcheck
     - stylecheck
     - tagliatelle
@@ -909,7 +909,7 @@ linters:
     - unused
     - usestdlibvars
     - varnamelen
-    - wastedassign
+#    - wastedassign # don't work as expected, see https://github.com/golangci/golangci-lint/issues/2649
     - whitespace
     - wrapcheck
     - wsl
@@ -931,7 +931,7 @@ issues:
 
   max-issues-per-linter: 50
   max-same-issues: 20
-  new: false # no need for this package
+  new: false # no need for this package for a while
   new-from-rev: HEAD
   fix: false
 
