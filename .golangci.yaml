@@ -362,15 +362,6 @@ linters-settings:
     var-require-single-var: false
     var-require-grouping: false
 
-  ifshort:
-    # Maximum length of variable declaration measured in number of lines, after which linter won't suggest using short syntax.
-    # Has higher priority than max-decl-chars.
-    # Default: 1
-    max-decl-lines: 2
-    # Maximum length of variable declaration measured in number of characters, after which linter won't suggest using short syntax.
-    # Default: 30
-    max-decl-chars: 40
-
   importas:
     no-unaliased: true
     no-extra-aliases: true
@@ -399,23 +390,14 @@ linters-settings:
   maintidx:
     under: 20
 
-  makezero:
-    # Allow only slices initialized with a length of zero.
-    # Default: false
-    always: true
-
   misspell:
     ignore-words: []
 
   nakedret:
-    # Make an issue if func has more lines of code than this setting, and it has naked returns.
-    # Default: 30
-    max-func-lines: 31
+    max-func-lines: 30
 
   nestif:
-    # Minimal complexity of if statements to report.
-    # Default: 5
-    min-complexity: 4
+    min-complexity: 5
 
   nilnil:
     checked-types:
@@ -446,12 +428,8 @@ linters-settings:
     for-loops: true
 
   predeclared:
-    # Comma-separated list of predeclared identifiers to not report on.
-    # Default: ""
     ignore: "new,int"
-    # Include method names and field names (i.e., qualified names) in checks.
-    # Default: false
-    q: true
+    q: false
 
   promlinter:
     strict: true
