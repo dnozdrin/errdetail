@@ -20,23 +20,19 @@ import (
 func TestNewErrorResponse(t *testing.T) {
 	t.Parallel()
 
-	tests := []struct {
-		name string
+	tests := map[string]struct {
 		err  error
 		file string
 	}{
-		{
-			name: "no_error",
+		"no_error": {
 			err:  nil,
 			file: "no_error",
 		},
-		{
-			name: "no_details",
+		"no_details": {
 			err:  assert.AnError,
 			file: "no_error",
 		},
-		{
-			name: "multiple_errors",
+		"multiple_errors": {
 			err: errdetail.Wrap(
 				assert.AnError,
 				"let's do it again, %username%, everything is garbage",
@@ -61,10 +57,10 @@ func TestNewErrorResponse(t *testing.T) {
 			file: "multiple_errors",
 		},
 	}
-	for _, tt := range tests {
+	for name, tt := range tests {
 		tt := tt
 
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			got := NewErrorResponse(tt.err)
 

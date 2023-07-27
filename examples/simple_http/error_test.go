@@ -22,18 +22,15 @@ import (
 func TestNewErrorResponse(t *testing.T) {
 	t.Parallel()
 
-	tests := []struct {
-		name string
+	tests := map[string]struct {
 		err  error
 		file string
 	}{
-		{
-			name: "no_error",
+		"no_error": {
 			err:  nil,
 			file: "no_error",
 		},
-		{
-			name: "bad_request",
+		"bad_request": {
 			err: errdetail.Wrap(
 				errdetail.ErrInvalidArgument,
 				"bad request",
@@ -43,6 +40,13 @@ func TestNewErrorResponse(t *testing.T) {
 					errdetail.WithDescription("email validation failed"),
 					errdetail.WithField("user.email"),
 					errdetail.WithReason("an invalid character has been detected in the provided sequence"),
+					errdetail.WithMeta(errdetail.Meta{
+						"link": "https://example.com",
+						"translations": map[string]string{
+							"en": "Hello world!",
+							"ua": "Привіт, світе!",
+						},
+					}),
 				),
 				errdetail.NewDetail(
 					errdetail.WithDomain("user.auth"),
@@ -54,8 +58,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "bad_request",
 		},
-		{
-			name: "failed_precondition",
+		"failed_precondition": {
 			err: errdetail.Wrap(
 				errdetail.ErrFailedPrecondition,
 				"precondition failed",
@@ -71,8 +74,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "failed_precondition",
 		},
-		{
-			name: "out_of_range",
+		"out_of_range": {
 			err: errdetail.Wrap(
 				errdetail.ErrOutOfRange,
 				"out of range",
@@ -88,8 +90,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "out_of_range",
 		},
-		{
-			name: "unauthenticated",
+		"unauthenticated": {
 			err: errdetail.Wrap(
 				errdetail.ErrUnauthenticated,
 				"unauthenticated",
@@ -105,8 +106,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "unauthenticated",
 		},
-		{
-			name: "permission_denied",
+		"permission_denied": {
 			err: errdetail.Wrap(
 				errdetail.ErrPermissionDenied,
 				"permission denied",
@@ -122,13 +122,11 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "permission_denied",
 		},
-		{
-			name: "not_found/simple",
+		"not_found/simple": {
 			err:  errdetail.ErrNotFound,
 			file: "not_found_simple",
 		},
-		{
-			name: "not_found/full",
+		"not_found/full": {
 			err: errdetail.Wrap(
 				errdetail.ErrNotFound,
 				"not found full",
@@ -156,18 +154,15 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "not_found_full",
 		},
-		{
-			name: "not_found/wrapped",
+		"not_found/wrapped": {
 			err:  fmt.Errorf("test error: %w", errdetail.Wrap(errdetail.ErrNotFound, "not found")),
 			file: "not_found_wrapped",
 		},
-		{
-			name: "not_found/double_wrapped",
+		"not_found/double_wrapped": {
 			err:  fmt.Errorf("test error: %w", errdetail.Wrap(fmt.Errorf("%w", errdetail.ErrNotFound), "not found")),
 			file: "not_found_wrapped",
 		},
-		{
-			name: "aborted",
+		"aborted": {
 			err: errdetail.Wrap(
 				errdetail.ErrAborted,
 				"aborted",
@@ -183,8 +178,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "aborted",
 		},
-		{
-			name: "already_exists",
+		"already_exists": {
 			err: errdetail.Wrap(
 				errdetail.ErrAlreadyExists,
 				"already exists",
@@ -200,8 +194,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "already_exists",
 		},
-		{
-			name: "removed",
+		"removed": {
 			err: errdetail.Wrap(
 				errdetail.ErrRemoved,
 				"removed",
@@ -217,8 +210,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "removed",
 		},
-		{
-			name: "resource_exhausted",
+		"resource_exhausted": {
 			err: errdetail.Wrap(
 				errdetail.ErrResourceExhausted,
 				"resource exhausted",
@@ -234,8 +226,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "resource_exhausted",
 		},
-		{
-			name: "data_corrupted",
+		"data_corrupted": {
 			err: errdetail.Wrap(
 				errdetail.ErrDataCorrupted,
 				"data corrupted",
@@ -251,8 +242,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "data_corrupted",
 		},
-		{
-			name: "internal",
+		"internal": {
 			err: errdetail.Wrap(
 				errdetail.ErrInternal,
 				"internal",
@@ -268,8 +258,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "internal",
 		},
-		{
-			name: "unknown/wrapped",
+		"unknown/wrapped": {
 			err: errdetail.Wrap(
 				assert.AnError,
 				"dummy",
@@ -285,8 +274,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "unknown",
 		},
-		{
-			name: "unknown/new",
+		"unknown/new": {
 			err: errdetail.New(
 				"dummy",
 				errdetail.NewDetail(
@@ -301,8 +289,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "unknown",
 		},
-		{
-			name: "not_implemented",
+		"not_implemented": {
 			err: errdetail.Wrap(
 				errdetail.ErrNotImplemented,
 				"not implemented",
@@ -318,8 +305,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "not_implemented",
 		},
-		{
-			name: "unavailable",
+		"unavailable": {
 			err: errdetail.Wrap(
 				errdetail.ErrUnavailable,
 				"unavailable",
@@ -335,8 +321,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "unavailable",
 		},
-		{
-			name: "deadline_exceeded/context",
+		"deadline_exceeded/context": {
 			err: errdetail.Wrap(
 				context.DeadlineExceeded,
 				"deadline exceeded",
@@ -352,8 +337,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "deadline_exceeded",
 		},
-		{
-			name: "deadline_exceeded/predefined",
+		"deadline_exceeded/predefined": {
 			err: errdetail.Wrap(
 				errdetail.ErrDeadlineExceeded,
 				"deadline exceeded",
@@ -369,8 +353,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "deadline_exceeded",
 		},
-		{
-			name: "cancelled/context",
+		"cancelled/context": {
 			err: errdetail.Wrap(
 				context.Canceled,
 				"cancelled",
@@ -386,8 +369,7 @@ func TestNewErrorResponse(t *testing.T) {
 			),
 			file: "cancelled",
 		},
-		{
-			name: "cancelled/predefined",
+		"cancelled/predefined": {
 			err: errdetail.Wrap(
 				errdetail.ErrCancelled,
 				"cancelled",
@@ -404,10 +386,10 @@ func TestNewErrorResponse(t *testing.T) {
 			file: "cancelled",
 		},
 	}
-	for _, tt := range tests {
+	for name, tt := range tests {
 		tt := tt
 
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			got := NewErrorResponse(tt.err)
 

@@ -25,15 +25,14 @@ func TestDetail(t *testing.T) {
 		code        string
 		domain      string
 		reason      string
+		meta        Meta
 	}
 
-	tests := []struct {
-		name   string
+	tests := map[string]struct {
 		args   args
 		values values
 	}{
-		{
-			name: "with_all_options",
+		"with_all_options": {
 			args: args{
 				opts: []Option{
 					WithField("field_1"),
@@ -41,6 +40,14 @@ func TestDetail(t *testing.T) {
 					WithCode("code_1"),
 					WithDomain("domain_1"),
 					WithReason("reason_1"),
+					WithMeta(Meta{
+						"dummyField1": 1,
+						"dummyField2": "dummyValue",
+						"dummyField3": map[string]int{
+							"1": 1,
+							"2": 2,
+						},
+					}),
 				},
 			},
 			values: values{
@@ -49,17 +56,23 @@ func TestDetail(t *testing.T) {
 				code:        "code_1",
 				domain:      "domain_1",
 				reason:      "reason_1",
+				meta: Meta{
+					"dummyField1": 1,
+					"dummyField2": "dummyValue",
+					"dummyField3": map[string]int{
+						"1": 1,
+						"2": 2,
+					},
+				},
 			},
 		},
-		{
-			name: "empty_options",
+		"empty_options": {
 			args: args{
 				opts: nil,
 			},
 			values: values{},
 		},
-		{
-			name: "nil_options",
+		"nil_options": {
 			args: args{
 				opts: nil,
 			},
@@ -67,9 +80,10 @@ func TestDetail(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests {
+	for name, tt := range tests {
 		tt := tt
-		t.Run(tt.name, func(t *testing.T) {
+
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
 			detail := NewDetail(tt.args.opts...)
@@ -79,6 +93,7 @@ func TestDetail(t *testing.T) {
 			assert.Equal(t, tt.values.code, detail.Code())
 			assert.Equal(t, tt.values.domain, detail.Domain())
 			assert.Equal(t, tt.values.reason, detail.Reason())
+			assert.Equal(t, tt.values.meta, detail.Meta())
 		})
 	}
 }
@@ -90,27 +105,23 @@ func TestExtractDetails(t *testing.T) {
 		err error
 	}
 
-	tests := []struct {
-		name string
+	tests := map[string]struct {
 		args args
 		want []Detail
 	}{
-		{
-			name: "no_details_in_error",
+		"no_details_in_error": {
 			args: args{
 				err: assert.AnError,
 			},
 			want: nil,
 		},
-		{
-			name: "no_error",
+		"no_error": {
 			args: args{
 				err: nil,
 			},
 			want: nil,
 		},
-		{
-			name: "with_details",
+		"with_details": {
 			args: args{
 				err: New("test_error",
 					NewDetail(
@@ -121,6 +132,7 @@ func TestExtractDetails(t *testing.T) {
 						WithDescription("dummy_description_1"),
 						WithField("dummy_field_1"),
 						WithReason("dummy_reason_1"),
+						WithMeta(Meta{"key1": "value1"}),
 					),
 				),
 			},
@@ -133,14 +145,16 @@ func TestExtractDetails(t *testing.T) {
 					WithDescription("dummy_description_1"),
 					WithField("dummy_field_1"),
 					WithReason("dummy_reason_1"),
+					WithMeta(Meta{"key1": "value1"}),
 				),
 			},
 		},
 	}
 
-	for _, tt := range tests {
+	for name, tt := range tests {
 		tt := tt
-		t.Run(tt.name, func(t *testing.T) {
+
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
 			assert.NotPanics(t, func() {

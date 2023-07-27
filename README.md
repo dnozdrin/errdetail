@@ -19,13 +19,14 @@
 
 **Errdetail** allows to add one or multiple details to an `error`. Each detail may contain the next optional fields:
 
-| Field       | Possible usage                                                                                                 | Example                                                             |
-|-------------|----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| domain      | a particular interest, activity, or type of knowledge                                                          | `user.management`                                                   |
-| code        | a unique code for a particular type of error                                                                   | `validation_email_invalid_character`                                |
-| description | a short, human-readable summary of the problem that should change from occurrence to occurrence of the problem | `email address must follow the format described in the RFC 5322`    |
-| field       | a field where the error occurred, common for validation issues                                                 | `user.email`                                                        |
-| reason      | a human-readable explanation specific to this occurrence of the problem                                        | `an invalid character has been detected in the provided sequence`   |
+| Field       | Possible usage                                                                                                 | Example                                                           |
+|-------------|----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| domain      | a particular interest, activity, or type of knowledge                                                          | `user.management`                                                 |
+| code        | a unique code for a particular type of error                                                                   | `validation_email_invalid_character`                              |
+| description | a short, human-readable summary of the problem that should change from occurrence to occurrence of the problem | `email address must follow the format described in the RFC 5322`  |
+| field       | a field where the error occurred, common for validation issues                                                 | `user.email`                                                      |
+| reason      | a human-readable explanation specific to this occurrence of the problem                                        | `an invalid character has been detected in the provided sequence` |
+| meta        | arbitrary data required for the error explanation                                                              | `{"dummyField1":"dummyValue", "dummyField2":2}`                   |
 
 With such approach it's possible to aggregate information about several errors into one type that implements the `error` interface.
 
@@ -42,6 +43,10 @@ err := errdetail.New(
         errdetail.WithDescription("email validation failed"),
         errdetail.WithField("user.email"),
         errdetail.WithReason("invalid character detected: \"#\""),
+        errdetail.WithMeta(errdetail.Meta{
+			"dummyField1": "dummyValue",
+			"dummyField2": 2,
+        }),
     )
 )
 ```
@@ -58,6 +63,10 @@ err := errdetail.Wrap(
         errdetail.WithDescription("email validation failed"),
         errdetail.WithField("user.email"),
         errdetail.WithReason("invalid character detected: \"#\""),
+        errdetail.WithMeta(errdetail.Meta{
+            "dummyField1": "dummyValue",
+            "dummyField2": 2,
+        }),
     ),
     errdetail.NewDetail(
         errdetail.WithDomain("user.auth"),
@@ -65,6 +74,10 @@ err := errdetail.Wrap(
         errdetail.WithDescription("password validation failed"),
         errdetail.WithField("user.password"),
         errdetail.WithReason("password is empty"),
+        errdetail.WithMeta(errdetail.Meta{
+            "dummyField3": "hello world!",
+            "dummyField4": 4,
+        }),
     ),
 )
 ```
@@ -186,7 +199,14 @@ func extractDetails(err error) []ErrorDetail {
         "code": "invalid_email",
         "description": "email validation failed",
         "field": "user.email",
-        "reason": "invalid character detected: \"#\""
+        "reason": "invalid character detected: \"#\"",
+        "meta": {
+          "link": "https://example.com",
+          "translations": {
+            "en": "Hello world!",
+            "ua": "Привіт, світе!"
+          }
+        }
       },
       {
         "domain": "user.auth",

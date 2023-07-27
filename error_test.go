@@ -23,13 +23,11 @@ func TestNew(t *testing.T) {
 		details []Detail
 	}
 
-	tests := []struct {
-		name        string
+	tests := map[string]struct {
 		args        args
 		wantDetails []Detail
 	}{
-		{
-			name: "full",
+		"full": {
 			args: args{
 				msg: "test message 1",
 				details: []Detail{
@@ -42,8 +40,7 @@ func TestNew(t *testing.T) {
 				NewDetail(WithDescription("dummy description_1")),
 			},
 		},
-		{
-			name: "empty_message",
+		"empty_message": {
 			args: args{
 				msg: "",
 				details: []Detail{
@@ -56,8 +53,7 @@ func TestNew(t *testing.T) {
 				NewDetail(WithDescription("dummy description_2")),
 			},
 		},
-		{
-			name: "partially_filled_details",
+		"partially_filled_details": {
 			args: args{
 				msg: "test message 2",
 				details: []Detail{
@@ -76,9 +72,10 @@ func TestNew(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests {
+	for name, tt := range tests {
 		tt := tt
-		t.Run(tt.name, func(t *testing.T) {
+
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
 			err := New(tt.args.msg, tt.args.details...)
@@ -100,28 +97,24 @@ func TestWrapNil(t *testing.T) {
 		details []Detail
 	}
 
-	tests := []struct {
-		name string
+	tests := map[string]struct {
 		args args
 	}{
-		{
-			name: "all_empty",
+		"all_empty": {
 			args: args{
 				err:     nil,
 				msg:     "",
 				details: nil,
 			},
 		},
-		{
-			name: "with_message",
+		"with_message": {
 			args: args{
 				err:     nil,
 				msg:     "dummy message",
 				details: nil,
 			},
 		},
-		{
-			name: "with_details",
+		"with_details": {
 			args: args{
 				err: nil,
 				msg: "",
@@ -131,16 +124,14 @@ func TestWrapNil(t *testing.T) {
 				},
 			},
 		},
-		{
-			name: "with_empty_details",
+		"with_empty_details": {
 			args: args{
 				err:     nil,
 				msg:     "",
 				details: []Detail{},
 			},
 		},
-		{
-			name: "with_not_filled_details",
+		"with_not_filled_details": {
 			args: args{
 				err: nil,
 				msg: "",
@@ -154,8 +145,7 @@ func TestWrapNil(t *testing.T) {
 				},
 			},
 		},
-		{
-			name: "with_message_and_details",
+		"with_message_and_details": {
 			args: args{
 				err: nil,
 				msg: "dummy message",
@@ -167,10 +157,10 @@ func TestWrapNil(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests {
+	for name, tt := range tests {
 		tt := tt
 
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
 			err := Wrap(tt.args.err, tt.args.msg, tt.args.details...)
@@ -193,13 +183,11 @@ func TestWrap(t *testing.T) {
 		details []Detail
 	}
 
-	tests := []struct {
-		name string
+	tests := map[string]struct {
 		args args
 		want want
 	}{
-		{
-			name: "no_message/nil_details",
+		"no_message/nil_details": {
 			args: args{
 				err:     assert.AnError,
 				msg:     "",
@@ -210,8 +198,7 @@ func TestWrap(t *testing.T) {
 				msg:     assert.AnError.Error(),
 			},
 		},
-		{
-			name: "no_message/with_details",
+		"no_message/with_details": {
 			args: args{
 				err: assert.AnError,
 				msg: "",
@@ -228,8 +215,7 @@ func TestWrap(t *testing.T) {
 				msg: assert.AnError.Error(),
 			},
 		},
-		{
-			name: "nil_details",
+		"nil_details": {
 			args: args{
 				err:     assert.AnError,
 				msg:     "dummy message",
@@ -240,8 +226,7 @@ func TestWrap(t *testing.T) {
 				msg:     "dummy message: " + assert.AnError.Error(),
 			},
 		},
-		{
-			name: "empty_details",
+		"empty_details": {
 			args: args{
 				err:     assert.AnError,
 				msg:     "dummy message",
@@ -252,8 +237,7 @@ func TestWrap(t *testing.T) {
 				msg:     "dummy message: " + assert.AnError.Error(),
 			},
 		},
-		{
-			name: "with_not_filled_details",
+		"with_not_filled_details": {
 			args: args{
 				err: assert.AnError,
 				msg: "dummy message",
@@ -271,8 +255,7 @@ func TestWrap(t *testing.T) {
 				msg:     "dummy message: " + assert.AnError.Error(),
 			},
 		},
-		{
-			name: "with_partially_filled_details",
+		"with_partially_filled_details": {
 			args: args{
 				err: assert.AnError,
 				msg: "dummy message",
@@ -293,8 +276,7 @@ func TestWrap(t *testing.T) {
 				msg: "dummy message: " + assert.AnError.Error(),
 			},
 		},
-		{
-			name: "with_message_and_details",
+		"with_message_and_details": {
 			args: args{
 				err: assert.AnError,
 				msg: "dummy message",
@@ -313,10 +295,10 @@ func TestWrap(t *testing.T) {
 		},
 	}
 
-	for _, tt := range tests {
+	for name, tt := range tests {
 		tt := tt
 
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
 			err := Wrap(tt.args.err, tt.args.msg, tt.args.details...)

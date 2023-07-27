@@ -15,14 +15,12 @@ func TestValidateUser(t *testing.T) {
 	type args struct {
 		user User
 	}
-	tests := []struct {
-		name        string
+	tests := map[string]struct {
 		args        args
 		assertErr   assert.ErrorAssertionFunc
 		wantDetails []errdetail.Detail
 	}{
-		{
-			name: "error/empty_name",
+		"error/empty_name": {
 			args: args{
 				user: User{
 					Name:  "",
@@ -38,8 +36,7 @@ func TestValidateUser(t *testing.T) {
 			},
 			assertErr: assert.Error,
 		},
-		{
-			name: "error/too_long_name",
+		"error/too_long_name": {
 			args: args{
 				user: User{
 					Name:  "123456789012345678901234567890123456789012345678901",
@@ -55,8 +52,7 @@ func TestValidateUser(t *testing.T) {
 			},
 			assertErr: assert.Error,
 		},
-		{
-			name: "error/empty_email",
+		"error/empty_email": {
 			args: args{
 				user: User{
 					Name:  "test user",
@@ -72,8 +68,7 @@ func TestValidateUser(t *testing.T) {
 			},
 			assertErr: assert.Error,
 		},
-		{
-			name: "error/invalid_email_format",
+		"error/invalid_email_format": {
 			args: args{
 				user: User{
 					Name:  "test user",
@@ -89,8 +84,7 @@ func TestValidateUser(t *testing.T) {
 			},
 			assertErr: assert.Error,
 		},
-		{
-			name: "success",
+		"success": {
 			args: args{
 				user: User{
 					Name:  "test user",
@@ -101,10 +95,10 @@ func TestValidateUser(t *testing.T) {
 			assertErr:   assert.NoError,
 		},
 	}
-	for _, tt := range tests {
+	for name, tt := range tests {
 		tt := tt
 
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 
 			err := ValidateUser(tt.args.user)

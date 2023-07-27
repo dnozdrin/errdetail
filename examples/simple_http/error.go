@@ -45,6 +45,8 @@ type ErrorDetail struct {
 	// Code is an application-specific code specific to this part of the problem,
 	// expressed as a string value.
 	Code string `json:"code,omitempty"`
+	// Meta is a container of arbitrary data that helps to explain the error.
+	Meta errdetail.Meta `json:"meta,omitempty"`
 }
 
 // NewErrorResponse creates a ErrorResponse with properly filled fields.
@@ -170,6 +172,7 @@ func extractDetails(err error) []ErrorDetail {
 			Field:       extracted[i].Field(),
 			Description: extracted[i].Description(),
 			Code:        extracted[i].Code(),
+			Meta:        extracted[i].Meta(),
 		}
 	}
 

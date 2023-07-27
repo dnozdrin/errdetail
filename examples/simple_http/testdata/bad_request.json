@@ -9,7 +9,14 @@
         "code": "invalid_email",
         "description": "email validation failed",
         "field": "user.email",
-        "reason": "an invalid character has been detected in the provided sequence"
+        "reason": "an invalid character has been detected in the provided sequence",
+        "meta": {
+          "link": "https://example.com",
+          "translations": {
+            "en": "Hello world!",
+            "ua": "Привіт, світе!"
+          }
+        }
       },
       {
         "domain": "user.auth",
@@ -21,4 +28,3 @@
     ]
   }
 }
-

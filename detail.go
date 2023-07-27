@@ -16,8 +16,11 @@ type Detail struct {
 	code        string
 	domain      string
 	reason      string
+	meta        Meta
 	filled      bool
 }
+
+type Meta map[string]interface{}
 
 // Field is a Detail field getter.
 func (d *Detail) Field() string {
@@ -43,6 +46,11 @@ func (d *Detail) Domain() string {
 // Reason is a Detail reason getter.
 func (d *Detail) Reason() string {
 	return d.reason
+}
+
+// Meta is a Detail arbitrary data getter.
+func (d *Detail) Meta() Meta {
+	return d.meta
 }
 
 // NewDetail represents a Detail constructor.
@@ -109,6 +117,17 @@ func WithReason(reason string) Option {
 	return func(d *Detail) {
 		d.reason = reason
 		if d.reason != "" {
+			d.filled = true
+		}
+	}
+}
+
+// WithMeta is an option for Detail constructs that sets an error
+// arbitrary data and marks the detail as not empty.
+func WithMeta(meta Meta) Option {
+	return func(d *Detail) {
+		d.meta = meta
+		if d.meta != nil {
 			d.filled = true
 		}
 	}
